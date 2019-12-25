@@ -85,7 +85,7 @@ class Encoder_Disentagled():
         self.paths[2] = self.paths[0].apply(lambda x: os.path.join(root,x))
 
         self.groups = self.paths.groupby(1).groups
-        self.index = [k fof k in self.groups]
+        self.index = [k for k in self.groups]
         self.batch_size = 2
 
 
