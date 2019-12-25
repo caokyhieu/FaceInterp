@@ -241,12 +241,9 @@ class Encoder_Disentagled():
 
         # Use Python partial to provide loss function with additional
         # 'averaged_samples' argument
-        partial_gp_loss_source = partial(self.gradient_penalty_loss,
+        partial_gp_loss = partial(self.gradient_penalty_loss,
                           averaged_samples=interpolated_img_source)
-        partial_gp_loss_source.__name__ = 'gradient_penalty_source' # Keras requires function names
-        partial_gp_loss_target = partial(self.gradient_penalty_loss,
-                          averaged_samples=validity_interpolated_target)
-        partial_gp_loss_target.__name__ = 'gradient_penalty_target' # Keras requires function names
+        partial_gp_loss.__name__ = 'gradient_penalty' # Keras requires function names
 
 
         self.critic_model = Model(inputs=[source_img,target_img,z_disc,disen_z_disc],
@@ -254,8 +251,8 @@ class Encoder_Disentagled():
         self.critic_model.compile(loss=[self.wasserstein_loss,
                                               self.wasserstein_loss,
                                                self.wasserstein_loss,
-                                              partial_gp_loss_source,
-                                              partial_gp_loss_target],
+                                              partial_gp_loss,
+                                              partial_gp_loss],
                                         optimizer=optimizer,
                                         loss_weights=[1 , 1 , 1 , 1 , 10])
 
