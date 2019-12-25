@@ -327,6 +327,7 @@ class Encoder_Disentagled():
         model.summary()
         img = Input(shape=self.img_shape)
         emb = model(img)
+
         return Model(img,emb)
 
 
@@ -355,7 +356,7 @@ class Encoder_Disentagled():
         model.add(LeakyReLU(alpha=0.2))
 
         model.add(Dense(1,activation='sigmoid'))
-
+        model.summary()
         inp1 = Input((self.latent_dim,))
         inp2 = Input((self.latent_dim,))
         inp = Concatenate()([inp1,inp2])
@@ -451,7 +452,9 @@ class Encoder_Disentagled():
         net = Conv2D(3,kernel_size=[3, 3], strides=1,padding='same')(net)
         net = BatchNormalization()(net)
         net = Conv2D(3,kernel_size=[3, 3], strides=1,padding='same', activation = 'tanh')(net)
-        return Model([latent,disentangle_latent], net)
+        model = Model([latent,disentangle_latent], net)
+        model.summary()
+        return model
 
 
     def read_image(self,path):
