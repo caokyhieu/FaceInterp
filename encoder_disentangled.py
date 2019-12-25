@@ -395,7 +395,7 @@ class Encoder_Disentagled():
         model.add(Dense(1))
         model.summary()
 
-        return net
+        return model
 
 
     def build_generator(self,regularizers_variable=1e-4):
