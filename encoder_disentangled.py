@@ -328,7 +328,7 @@ class Encoder_Disentagled():
     def build_siamese(self):
 
         model = Sequential()
-        model.add(Dense(1024,input_shape=(self.latent_dim*2)))
+        model.add(Dense(1024,input_shape=(self.latent_dim*2,)))
         model.add(BatchNormalization(momentum=0.8))
         model.add(LeakyReLU(alpha=0.2))
 
@@ -350,8 +350,8 @@ class Encoder_Disentagled():
 
         model.add(Dense(1,activation='sigmoid'))
 
-        inp1 = Input((self.latent_dim))
-        inp2 = Input((self.latent_dim))
+        inp1 = Input((self.latent_dim,))
+        inp2 = Input((self.latent_dim,))
         inp = Concatenate()([inp1,inp2])
         out = model(inp)
 
