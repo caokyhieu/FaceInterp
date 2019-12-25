@@ -54,7 +54,7 @@ class RandomWeightedAverage(_Merge):
     """Provides a (random) weighted average between real and generated image samples"""
     def _merge_function(self, inputs):
         shape = K.shape(inputs[0])
-        alpha = K.random_uniform((shape[0], 1))
+        alpha = K.random_uniform((shape[0], 1,1,1))
         return (alpha * inputs[0]) + ((1 - alpha) * inputs[1])
 
 class Encoder_Disentagled():
