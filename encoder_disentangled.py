@@ -615,5 +615,5 @@ class Encoder_Disentagled():
 
 
 if __name__ == "__main__":
-wgan = Encoder_Disentagled()
-wgan.train(epochs=30000, batch_size=32, sample_interval=100)
+    wgan = Encoder_Disentagled()
+    wgan.train(epochs=30000, batch_size=32, sample_interval=100)
