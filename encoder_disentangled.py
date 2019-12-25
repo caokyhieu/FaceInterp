@@ -470,8 +470,8 @@ class Encoder_Disentagled():
         X22_ = X2[:-1,:,:,:]
 
         ### concat
-        Xsame = np.conatenate([X1_,X2_],axis=0)
-        Xsame_  = np.conatenate([X12_,X22_],axis=0)
+        Xsame = np.concatenate([X1_,X2_],axis=0)
+        Xsame_  = np.concatenate([X12_,X22_],axis=0)
         ysame = np.ones(shape=(Xsame.shape[0]))
 
         ### diff person
