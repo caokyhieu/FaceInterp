@@ -535,26 +535,20 @@ class Encoder_Disentagled():
 
                 (Xsame,Xsame_,ysame),(Xdiff,Xdiff_,ydiff) = self.__data_generation(indexes)
                 # Train the encoder(siamese model)
-                d_loss = self.siamese_model.train_on_batch([Xsame, Xsame_],
-                                                                ysame)
-                d_loss += self.siamese_model.train_on_batch([Xdiff, Xdiff_],
-                                                                ydiff)
+                d_loss = self.siamese_model.train_on_batch([Xsame, Xsame_],[ysame])
+                d_loss += self.siamese_model.train_on_batch([Xdiff, Xdiff_],[ydiff])
                 # ---------------------
                 #  Train Disentangle
                 # ---------------------
 
-                dis_loss = self.dis_siamese_model.train_on_batch([Xsame, Xsame_],
-                                                                ysame)
-                dis_loss += self.dis_siamese_model.train_on_batch([Xdiff, Xdiff_],
-                                                                ydiff)
+                dis_loss = self.dis_siamese_model.train_on_batch([Xsame, Xsame_],[ysame])
+                dis_loss += self.dis_siamese_model.train_on_batch([Xdiff, Xdiff_],[ydiff])
                 # ---------------------
                 #  Train Adv Disentangle
                 # ---------------------
 
-                adv_dis_loss = self.adv_dis_siamese_model.train_on_batch([Xsame, Xsame_],
-                                                                ysame-1)
-                adv_dis_loss += self.adv_dis_siamese_model.train_on_batch([Xdiff, Xdiff_],
-                                                                ydiff+1)
+                adv_dis_loss = self.adv_dis_siamese_model.train_on_batch([Xsame, Xsame_],[ysame-1])
+                adv_dis_loss += self.adv_dis_siamese_model.train_on_batch([Xdiff, Xdiff_],[ydiff+1])
 
                 # ---------------------
                 #  Train Critic
