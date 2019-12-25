@@ -459,8 +459,8 @@ class Encoder_Disentagled():
     def __data_generation(self, indexes):
         'Generates data containing batch_size samples' # X : (n_samples, *dim, n_channels)
 
-        X1 = self.get_data(self.paths[self.index[0]])
-        X2 = self.get_data(self.paths[self.index[1]])
+        X1 = self.get_data(self.paths[indexes[0]])
+        X2 = self.get_data(self.paths[indexes[1]])
 
         ## same person
         X1_ = X1[1:,:,:,:]
