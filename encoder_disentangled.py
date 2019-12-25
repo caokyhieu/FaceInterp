@@ -504,6 +504,7 @@ class Encoder_Disentagled():
 
 
     def train(self, epochs, batch_size, sample_interval=50):
+        print(self.paths.head())
 
 
 
