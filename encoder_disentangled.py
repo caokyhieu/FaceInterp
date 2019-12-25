@@ -79,10 +79,10 @@ class Encoder_Disentagled():
 
         ##data
         path = '/mnt/hieuck/dataset/celebA/identity_CelebA.txt'
-        df = pd.read_csv(path, sep = ' ', header = None)
-        self.paths = np.array([os.path.join('/mnt/hieuck/dataset/celebA/img_align_celeba', v)\
-                          for v in df[0].values if int(v.split('.')[0])<500])
-        self.paths[2] = self.paths[0].apply(lambda x: os.path.join(path,x))
+        root = '/mnt/hieuck/dataset/celebA/img_align_celeba'
+        self.paths = pd.read_csv(path, sep = ' ', header = None)
+
+        self.paths[2] = self.paths[0].apply(lambda x: os.path.join(root,x))
 
         self.groups = self.paths.groupby(1).groups
         self.index = [k fof k in self.groups]
@@ -508,7 +508,6 @@ class Encoder_Disentagled():
 
 
 
-
         # # Rescale -1 to 1
         # X_train = (X_train.astype(np.float32) - 127.5) / 127.5
         # X_train = np.expand_dims(X_train, axis=3)
@@ -526,9 +525,9 @@ class Encoder_Disentagled():
         # eval_imgs = self.get_data(test_paths)
 
         for epoch in range(epochs):
-            indexes = random.sample(index,batch_size)
-            while len(groups[indexes[0]]) == 1 or len(groups[indexes[1]]) == 1:
-            	indexes = random.sample(index,batch_size)
+            indexes = random.sample(self.index,self.batch_size)
+            while len(self.groups[indexes[0]]) == 1 or len(self.groups[indexes[1]]) == 1:
+            	indexes = random.sample(self.index,self.batch_size)
 
             for _ in range(self.n_critic):
 
