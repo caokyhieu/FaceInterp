@@ -200,7 +200,7 @@ class Encoder_Disentagled():
         self.critic = self.build_discriminator()
         self.generator = self.build_generator()
 
-        self.critic.trainable = True
+        # self.critic.trainable = True
         self.encoder.trainble = False
         self.disengtangled_encoder.trainble = False
         self.generator.trainable = False
@@ -241,9 +241,12 @@ class Encoder_Disentagled():
 
         # Use Python partial to provide loss function with additional
         # 'averaged_samples' argument
-        partial_gp_loss = partial(self.gradient_penalty_loss,
+        partial_gp_loss_source = partial(self.gradient_penalty_loss,
                           averaged_samples=interpolated_img_source)
-        partial_gp_loss.__name__ = 'gradient_penalty' # Keras requires function names
+        partial_gp_loss_source.__name__ = 'gradient_penalty_source' # Keras requires function names
+        partial_gp_loss_target = partial(self.gradient_penalty_loss,
+                          averaged_samples=validity_interpolated_target)
+        partial_gp_loss_target.__name__ = 'gradient_penalty_target' # Keras requires function names
 
 
         self.critic_model = Model(inputs=[source_img,target_img,z_disc,disen_z_disc],
@@ -251,8 +254,8 @@ class Encoder_Disentagled():
         self.critic_model.compile(loss=[self.wasserstein_loss,
                                               self.wasserstein_loss,
                                                self.wasserstein_loss,
-                                              partial_gp_loss,
-                                              partial_gp_loss],
+                                              partial_gp_loss_source,
+                                              partial_gp_loss_target],
                                         optimizer=optimizer,
                                         loss_weights=[1 , 1 , 1 , 1 , 10])
 
@@ -509,7 +512,7 @@ class Encoder_Disentagled():
         plt.close()
 
 
-    def train(self, epochs, batch_size, sample_interval=50):
+    def train(self, epochs, sample_interval=50):
 
 
         # # Rescale -1 to 1
@@ -530,7 +533,7 @@ class Encoder_Disentagled():
 
         for epoch in range(epochs):
             indexes = random.sample(self.index,self.batch_size)
-            while len(self.groups[indexes[0]]) == 1 or len(self.groups[indexes[1]]) == 1:
+            while len(self.groups[indexes[0]]) < 3 or len(self.groups[indexes[1]]) < 3:
             	indexes = random.sample(self.index,self.batch_size)
 
             for _ in range(self.n_critic):
@@ -614,4 +617,4 @@ class Encoder_Disentagled():
 
 if __name__ == "__main__":
     wgan = Encoder_Disentagled()
-    wgan.train(epochs=30000, batch_size=32, sample_interval=100)
+    wgan.train(epochs=30000, sample_interval=100)
