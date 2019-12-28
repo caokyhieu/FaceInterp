@@ -280,7 +280,7 @@ class Encoder_Disentagled():
         # Discriminator determines validity
         valid = self.critic(img)
         # Defines generator model
-        self.generator_model = Model([z_gen,dis_z_gen], valid)
+        self.generator_model = Model([source_img,target_img], valid)
         self.generator_model.compile(loss=self.wasserstein_loss, optimizer=optimizer)
 
 
