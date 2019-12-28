@@ -593,9 +593,9 @@ class Encoder_Disentagled():
                 #  Train Generator
                 # ---------------------
 
-            g_loss = self.generator_model.train_on_batch([Xdiff,Xdiff_], valid_diff)
+            g_loss = self.generator_model.train_on_batch([z_disc,disen_z_disc], valid)
 
-            g_loss += self.generator_model.train_on_batch([Xsame,Xsame_], valid)
+            g_loss += self.generator_model.train_on_batch([z_disc_diff,disen_z_disc_diff], valid_diff)
 
             # Plot the progress
             print ("%d [En loss: %f] [dis En loss: %f] [dis adv En loss: %f] [Crit loss: %f] [G loss: %f]" % \
