@@ -69,7 +69,13 @@ class Encoder_Disentagled():
         self.n_critic = 5
         optimizer = RMSprop(lr=0.00005)
 
+        ## Init params
+        session = K.get_session()
+        init = tf.global_variables_initializer()
+        session.run(init)
+
         # Build the generator and critic
+
         self.encoder = self.build_encoder()
         self.disengtangled_encoder = self.build_encoder()
         self.siamese_net = self.build_siamese()
@@ -257,7 +263,7 @@ class Encoder_Disentagled():
                                               partial_gp_loss_source,
                                               partial_gp_loss_target],
                                         optimizer=optimizer,
-                                        loss_weights=[1 , 1 , 1 , 1 , 10])
+                                        loss_weights=[1 , 1 , 1 , 5 , 5])
 
 
 
